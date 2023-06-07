@@ -54,8 +54,11 @@ void Mesh::create()
 {
 	VAO();	VBO();	EBO();
 
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(Vec3f));
+	glEnableVertexAttribArray(1);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -95,11 +98,78 @@ void Mesh::setPerspective(float n, float f, float r, float l, float t, float b)
 	perspective[14] = -1;
 }
 
+void Mesh::rotateArbitaryAxis(Vec3f p1, Vec3f p2, float alpha)
+{
+	Vec3f vec = p2 - p1;
+	Vec3f u = vec.unit();
+	
+	/*float a = u.x(), b = u.y(), c = u.z();
+
+	Vec3f v(0,0,0);
+	if (a <= b && a <= c)
+		v = Vec3f(0, -c, b);
+	else if (b <= a && b <= c)
+		v = Vec3f(-c, 0, a);
+	else
+		v = Vec3f(-b, a, 0);
 
 
+	Vec3f w = u.cross(v);
 
+	Mat4f reverse(u.x(), v.x(), w.x(), 0,
+				  u.y(), v.y(), w.y(), 0,
+				  u.z(), v.z(), w.z(), 0,
+				  0,	 0,		0,	   1);
+	Mat4f normal(u.x(), u.y(), u.z(), 0,
+				 v.x(), v.y(), v.z(), 0,
+				 w.x(), w.y(), w.z(), 0,
+				 0,		0,	   0,	  1);
 
+	Mat4f rotate_x(1);
+	rotate_x[5] = cos(alpha);
+	rotate_x[6] = -sin(alpha);
+	rotate_x[9] = sin(alpha);
+	rotate_x[10] = cos(alpha);
+	
+	Mat4f result = reverse * rotate_x * normal;
+	*/
 
+	float d = sqrt(pow(u.y(), 2) + pow(u.z(), 2));
+	float a = u.x(), b = u.y(), c = u.z();
 
+	Mat4f translate(1);
+	translate[3] = -p1.x(); translate[7] = -p1.y(); translate[11] = -p1.z();
 
+	Mat4f rotate_around_x(1);
+	rotate_around_x[5] = rotate_around_x[10] = c / d;
+	rotate_around_x[9] = b / d; rotate_around_x[6] = -b / d;
+	
+
+	Mat4f rotate_around_y(1);
+	rotate_around_y[0]  = rotate_around_y[10] = sqrt(pow(b, 2) + pow(c, 2)) / u.length();
+	rotate_around_y[2]  =   a / u.length(); rotate_around_y[8]  = - a / u.length();
+
+	Mat4f rotate_around_z(1);
+	rotate_around_z[0] = cos(alpha); rotate_around_z[1] = -sin(alpha);
+	rotate_around_z[4] = sin(alpha); rotate_around_z[5] = cos(alpha);
+
+	Mat4f undo_y(1);
+	undo_y[0] = undo_y[10] = sqrt(pow(b, 2) + pow(c, 2)) / u.length();
+	undo_y[2] = - a / u.length(); undo_y[8] = a / u.length();
+
+	Mat4f undo_x(1);
+	undo_x[5] = undo_x[10] = c / d;
+	undo_x[9] = - b / d; undo_x[6] = b / d;
+
+	Mat4f undo_translate(1);
+	undo_translate[3] = p1.x(); undo_translate[7] = p1.y(); undo_translate[11] = p1.z();
+
+	//std::cout << undo_y * rotate_around_y;
+
+	Mat4f result = undo_translate * undo_x * undo_y * rotate_around_z * rotate_around_y * rotate_around_x * translate;
+
+	//std::cout << result;
+
+	transformation = result * transformation;
+}
 

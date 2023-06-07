@@ -37,6 +37,7 @@ float a = 0, b = 0, c = 0;
 float c_a = 0, c_b = 0, c_c = 0;
 float s = 1;
 bool R = false;
+bool up = false;
 
 void input(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -66,19 +67,27 @@ void input(GLFWwindow* window, int key, int scancode, int action, int mods)
     }
     else if (key == GLFW_KEY_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
-        b = 0.002;
+        b = 0.02;
     }
     else if (key == GLFW_KEY_DOWN && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
-        b = -0.002;
+        b = -0.02;
     }
     else if (key == GLFW_KEY_RIGHT && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
-        a = 0.002;
+        a = 0.02;
     }
     else if (key == GLFW_KEY_LEFT && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
-        a = -0.002;
+        a = -0.02;
+    }
+    else if (key == GLFW_KEY_Z && (action == GLFW_REPEAT || action == GLFW_PRESS))
+    {
+        c = 0.02;
+    }
+    else if (key == GLFW_KEY_X && (action == GLFW_REPEAT || action == GLFW_PRESS))
+    {
+        c = -0.02;
     }
     else if (key == GLFW_KEY_I && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
@@ -108,6 +117,10 @@ void input(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
         R = true;
     }
+    else if (key == GLFW_KEY_Y && action == GLFW_PRESS)
+    {
+        up = true;
+    }
     else if (key == GLFW_KEY_C && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
         s = 1.02;
@@ -123,6 +136,7 @@ void input(GLFWwindow* window, int key, int scancode, int action, int mods)
         c_a = 0, c_b = 0, c_c = 0;
         s = 1;
         R = false;
+        up = false;
     }
 }
 
@@ -182,14 +196,16 @@ int main()
 
 
     glClearColor(0.35, 0.35, 0.35, 1);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glEnable(GL_DEPTH_TEST);
+    
 
     float translation[] = { a, b, c };
-
+    //bool c = true;
 
     while (!glfwWindowShouldClose(window))
     {
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glfwGetWindowSize(window, &width, &height);
         aspectRatio = (float)width / height;
@@ -219,9 +235,15 @@ int main()
         obj.move(a, b, c);
         obj.rotate_x(x);
         obj.rotate_y(y);
-        obj.rotate_z(z);
+        //obj.rotate_z(z);
+        obj.rotateArbitaryAxis(Vec3f(1, 1, 0), Vec3f(-1, -1, 0), z);
         obj.camera_move(c_a, c_b, c_c);
-        //obj.scale(s);
+        if (up)
+        {
+            obj.scale(2);
+            up = false;
+        }
+        
         obj.reset(R);
 
         ImGui::Render();

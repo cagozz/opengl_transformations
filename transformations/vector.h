@@ -3,58 +3,76 @@
 
 #include <iostream>
 
-class Vec4f
+class Vec3f
 {
 private:
-	float m_x, m_y, m_z, m_w;
+	float m_x, m_y, m_z;
 public:
-	Vec4f(float x, float y, float z, float w) : m_x(x), m_y(y), m_z(z), m_w(w) {}
+	Vec3f(float x, float y, float z) : m_x(x), m_y(y), m_z(z) {}
 
 	float x() { return m_x; }
 	float y() { return m_y; }
 	float z() { return m_z; }
-	float w() { return m_w; }
 
-	Vec4f operator+(const Vec4f& r)
+	Vec3f operator+(const Vec3f& r)
 	{
-		return { m_x + r.m_x, m_y + r.m_y, m_z + r.m_z, m_w + r.m_w };
+		return { m_x + r.m_x, m_y + r.m_y, m_z + r.m_z };
 	}
 
-	Vec4f operator-(const Vec4f& r)
+	Vec3f operator-(const Vec3f& r)
 	{
-		return { m_x - r.m_x, m_y - r.m_y, m_z - r.m_z, m_w - r.m_w };
+		return { m_x - r.m_x, m_y - r.m_y, m_z - r.m_z};
 	}
 
-	Vec4f operator*(float val)
+	Vec3f operator*(float val)
 	{
-		return { val * m_x, val * m_y, val * m_z, val * m_w };
+		return { val * m_x, val * m_y, val * m_z};
 	}
 
-	float dot(const Vec4f& v)//like vec3
+	Vec3f operator/(float val)
+	{
+		return { m_x / val, m_y / val, m_z / val };
+	}
+
+	float dot(const Vec3f& v)
 	{
 		return (m_x * v.m_x + m_y * v.m_y + m_z * v.m_z);
 	}
 
-	Vec4f cross(const Vec4f& v)//like vec3
+	Vec3f cross(const Vec3f& v)
 	{
 		return { (m_y * v.m_z) - (m_z * v.m_y),
 				 (m_z * v.m_x) - (m_x * v.m_z),
-				 (m_x * v.m_y) - (m_y * v.m_x),
-											0 
+				 (m_x * v.m_y) - (m_y * v.m_x)
 			   };
 	}
 
-	friend std::ostream& operator<<(std::ostream& os, const Vec4f& v);
+	float length()
+	{
+		return sqrt(pow(m_x, 2) + pow(m_y, 2) + pow(m_z, 2));
+	}
+
+	Vec3f unit()
+	{
+		return (*this / (this->length()));
+	}
+
+	Vec3f normalize()
+	{
+		return (*this / (this->length()));
+	}
+
+	friend std::ostream& operator<<(std::ostream& os, const Vec3f& v);
 };
 
-inline Vec4f operator*(float val, Vec4f& v)
+inline Vec3f operator*(float val, Vec3f& v)
 {
 	return v * val;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const Vec4f& v)
+inline std::ostream& operator<<(std::ostream& os, const Vec3f& v)
 {
-	os << v.m_x << " " << v.m_y << " " << v.m_z << " " << v.m_w << std::endl;
+	os << v.m_x << " " << v.m_y << " " << v.m_z << std::endl;
 	return os;
 }
 

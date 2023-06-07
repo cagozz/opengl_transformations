@@ -20,16 +20,21 @@ void parser(const char* fileName, Mesh& obj)
 		std::istringstream(line) >> vertices >> faces;
 	}
 
+	std::vector<Vec3f> locations;
+	std::vector<Vec3f> normals;
+
+	locations.reserve(vertices);
+	normals.reserve(vertices);
+
 	obj.vertices.reserve(vertices);
 	obj.indices.reserve(faces);
-	//obj.normals.reserve(faces);
 
 	for (int i = 0; i < vertices; i++)
 	{
-		double x, y, z;
+		float x, y, z;
 		std::getline(file, line);
 		std::istringstream(line) >> x >> y >> z;
-		obj.vertices.push_back({ Vec4f(x, y, z, 1) });
+		locations.push_back(Vec3f(x, y, z));
 	}
 
 	for (int i = 0; i < faces; i++)
@@ -43,10 +48,26 @@ void parser(const char* fileName, Mesh& obj)
 			std::istringstream(line) >> data >> ind[0] >> ind[1] >> ind[2];
 		}
 
-		//Vec3f normal = (obj.vertices[ind[1]] - obj.vertices[ind[0]]).cross(obj.vertices[ind[2]] - obj.vertices[ind[0]]);
-
-		//obj.normals.push_back(normal);
 		obj.indices.push_back({ ind[0], ind[1], ind[2] });
+	}
+
+	
+	for (int i = 0; i < vertices; i++)
+	{
+		int count = 0;
+		Vec3f sum(0, 0, 0);
+		for (int j = 0; j < faces; j++)
+		{
+			if (obj.indices[j].x == i || obj.indices[j].y == i || obj.indices[j].z == i)
+			{
+				Vec3f normal = (locations[obj.indices[j].y] - locations[obj.indices[j].x]).cross(locations[obj.indices[j].z] - locations[obj.indices[j].x]).unit();
+				sum = sum + normal;
+				count++;
+			}
+		}
+
+		obj.vertices.push_back({ locations[i], sum / count });
+		//obj.vertices.push_back({ locations[i], {1,1,1} });
 	}
 
 }

@@ -8,7 +8,8 @@
 
 struct Vertex
 {
-	Vec4f position;
+	Vec3f position;
+	Vec3f normal;
 };
 
 class Mesh
@@ -39,6 +40,7 @@ public:
 	void create();
 	void draw();
 	void setPerspective(float n, float f, float r, float l, float t, float b);
+	void rotateArbitaryAxis(Vec3f p1, Vec3f p2, float alpha);
 
 	void move(float x, float y, float z) {
 		Mat4f mv(1);
