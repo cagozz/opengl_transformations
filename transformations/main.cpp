@@ -11,6 +11,7 @@
 #include "vector.h"
 #include "parser.h"
 #include "matrix.h"
+#include "scene.h"
 
 #define ASSERT(x) if(!(x)) __debugbreak();
 #define GLCall(x) GLClearError(); x; ASSERT(GLLogCall())
@@ -95,11 +96,11 @@ void input(GLFWwindow* window, int key, int scancode, int action, int mods)
     }
     else if (key == GLFW_KEY_K && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
-        c_b = -0.002;
+        c_b = -0.02;
     }
     else if (key == GLFW_KEY_L && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
-        c_a = 0.002;
+        c_a = 0.02;
     }
     else if (key == GLFW_KEY_J && (action == GLFW_REPEAT || action == GLFW_PRESS))
     {
@@ -169,7 +170,7 @@ int main()
 
     std::cout << glGetString(GL_VERSION);
 
-    float near = 0.1;
+    /*float near = 0.1;
     float far = 100;
 
     float aspectRatio = (float)width / height;
@@ -184,8 +185,10 @@ int main()
     parser("input.off", obj);
     obj.setPerspective(near, far, r, l, t, bttm);
     obj.setShader(demo.vertex.c_str(), demo.fragment.c_str());
-    obj.create();
+    obj.create();*/
 
+    Scene scene(width, height, window);
+    scene.setShader("demo.vert", "demo.frag");
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -207,15 +210,18 @@ int main()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glfwGetWindowSize(window, &width, &height);
+        /*glfwGetWindowSize(window, &width, &height);
         aspectRatio = (float)width / height;
         r = aspectRatio * scale, l = -r;
-        obj.setPerspective(near, far, r, l, t, bttm);
+        obj.setPerspective(near, far, r, l, t, bttm);*/
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         
+        //scene.getCamera().move(c_a, c_b, c_c);
+        scene.draw();
+
         /*ImGui::Begin("Controller");
 
         if (ImGui::Button("Reset"))
@@ -229,22 +235,7 @@ int main()
       
         ImGui::End();*/
 
-        glViewport(0, 0, width, height);
-
-        obj.draw();
-        obj.move(a, b, c);
-        obj.rotate_x(x);
-        obj.rotate_y(y);
-        //obj.rotate_z(z);
-        obj.rotateArbitaryAxis(Vec3f(1, 1, 0), Vec3f(-1, -1, 0), z);
-        obj.camera_move(c_a, c_b, c_c);
-        if (up)
-        {
-            obj.scale(2);
-            up = false;
-        }
-        
-        obj.reset(R);
+        //glViewport(0, 0, width, height);
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

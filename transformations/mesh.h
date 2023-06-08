@@ -5,6 +5,7 @@
 #include "vector.h"
 #include "matrix.h"
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 struct Vertex
 {
@@ -17,14 +18,13 @@ class Mesh
 private:
 	std::vector<Vertex> vertices;
 	std::vector<Vec3> indices;
-	Mat4f transformation;
-	Mat4f perspective;
-	Mat4f camera;
-
-	unsigned int shader;
+	Mat4f model;
+	
 	unsigned int vao;
 	unsigned int vbo;
 	unsigned int ebo;
+
+	float speed;
 
 private:
 
@@ -34,13 +34,19 @@ private:
 
 public:
 
-	Mesh() : transformation(1), camera(1), perspective(1), vao(0), vbo(0), ebo(0), shader(0) {}
+	Mesh() : model(1), vao(0), vbo(0), ebo(0), speed(0.01) {}
 	~Mesh();
-	void setShader(const char* vertex, const char* fragment);
+
 	void create();
 	void draw();
-	void setPerspective(float n, float f, float r, float l, float t, float b);
+
+	void update();
+	void input(GLFWwindow* window);
+
 	void rotateArbitaryAxis(Vec3f p1, Vec3f p2, float alpha);
+
+	Mat4f getModelMat() { return model; }
+
 
 	void move(float x, float y, float z) {
 		Mat4f mv(1);
@@ -48,18 +54,7 @@ public:
 		mv[7]  = y;
 		mv[11] = z;
 
-		transformation = mv*transformation;
-	}
-
-	void rotate_y(float alpha)
-	{
-		Mat4f rotate_y(1);
-		rotate_y[0] = cos(alpha);
-		rotate_y[2] = sin(alpha);
-		rotate_y[8] = -sin(alpha);
-		rotate_y[10] = cos(alpha);
-
-		transformation = rotate_y * transformation;
+		model = mv*model;
 	}
 
 	void rotate_x(float alpha)
@@ -70,7 +65,18 @@ public:
 		rotate_x[9] = sin(alpha);
 		rotate_x[10] = cos(alpha);
 
-		transformation = rotate_x * transformation;
+		model = rotate_x * model;
+	}
+
+	void rotate_y(float alpha)
+	{
+		Mat4f rotate_y(1);
+		rotate_y[0] = cos(alpha);
+		rotate_y[2] = sin(alpha);
+		rotate_y[8] = -sin(alpha);
+		rotate_y[10] = cos(alpha);
+
+		model = rotate_y * model;
 	}
 
 	void rotate_z(float alpha)
@@ -81,7 +87,7 @@ public:
 		rotate_z[4] = sin(alpha);
 		rotate_z[5] = cos(alpha);
 
-		transformation = rotate_z * transformation;
+		model = rotate_z * model;
 	}
 
 	void scale(float m)
@@ -89,40 +95,20 @@ public:
 		Mat4f scalar(m);
 		scalar[15] = 1;
 
-		transformation = scalar * transformation;
+		model = scalar * model;
 	}
 
 	void reset(bool check)
 	{
 		if (check)
 		{
-			transformation.set(1, 0, 0, 0,
-							   0, 1, 0, 0,
-							   0, 0, 1, 0,
-							   0, 0, 0, 1);
+			model.set(1, 0, 0, 0,
+					  0, 1, 0, 0,
+					  0, 0, 1, 0,
+					  0, 0, 0, 1);
 		}
 	}
-
-	void rotate(float alpha, float beta)
-	{
-		transformation[0] = cos(beta);
-		transformation[2] = sin(beta);
-		transformation[4] = sin(alpha) * sin(beta);
-		transformation[5] = cos(alpha);
-		transformation[6] = -sin(alpha) * cos(beta);
-		transformation[8] = -cos(alpha) * sin(beta);
-		transformation[9] = sin(alpha);
-		transformation[10] = cos(alpha) * cos(beta);
-	}
-
-	void camera_move(float x, float y, float z)
-	{
-		camera[3] -= x;
-		camera[7] -= y;
-		camera[11] -= z;
-	}
-
-	void print() { std::cout << transformation; }
+	
 	friend void parser(const char* fileName, Mesh& obj);
 };
 

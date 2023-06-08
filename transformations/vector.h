@@ -8,11 +8,11 @@ class Vec3f
 private:
 	float m_x, m_y, m_z;
 public:
-	Vec3f(float x, float y, float z) : m_x(x), m_y(y), m_z(z) {}
+	Vec3f(float x = 0, float y = 0, float z = 0) : m_x(x), m_y(y), m_z(z) {}
 
-	float x() { return m_x; }
-	float y() { return m_y; }
-	float z() { return m_z; }
+	float& x() { return m_x; }
+	float& y() { return m_y; }
+	float& z() { return m_z; }
 
 	Vec3f operator+(const Vec3f& r)
 	{
