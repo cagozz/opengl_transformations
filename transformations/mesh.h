@@ -1,6 +1,10 @@
 #ifndef MESH_H
 #define MESH_H
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 #include <vector>
 #include "vector.h"
 #include "matrix.h"
@@ -41,7 +45,7 @@ public:
 	void draw();
 
 	void update();
-	void input(GLFWwindow* window);
+	void input(GLFWwindow* window, Vec3f &a, Vec3f &b);
 
 	void rotateArbitaryAxis(Vec3f p1, Vec3f p2, float alpha);
 
@@ -96,6 +100,28 @@ public:
 		scalar[15] = 1;
 
 		model = scalar * model;
+	}
+
+	void shear_x(float m)
+	{
+		Mat4f shear(1);
+		shear[1] = shear[2] = m;
+
+		model = shear * model;
+	}
+	void shear_y(float m)
+	{
+		Mat4f shear(1);
+		shear[4] = shear[6] = m;
+
+		model = shear * model;
+	}
+	void shear_z(float m)
+	{
+		Mat4f shear(1);
+		shear[8] = shear[9] = m;
+
+		model = shear * model;
 	}
 
 	void reset(bool check)

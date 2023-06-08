@@ -1,19 +1,37 @@
 #include "scene.h"
 
-Scene::Scene(int width, int height, GLFWwindow* window) : camera(width, height), window(window)
+Scene::Scene(int width, int height, GLFWwindow* window) : camera(width, height), window(window), line{ {5, 5, 0}, {-5, -5, 0} }
 {
 	addObject("input.off");
 }
 
 void Scene::draw()
 {
+	ImGui::Begin("Controller");
+
 	camera.input(window);
 	camera.update();
 
-	object.input(window);
+	ImGui::SliderFloat3("V0", (float*) &line[0], -5, 5);
+	ImGui::SliderFloat3("V1", (float*) &line[1], -5, 5);
+
+	/*glLineWidth(2);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, &line[0]);
+	glDrawArrays(GL_LINES, 0, 2);
+	glDisableClientState(GL_VERTEX_ARRAY);*/
+	Mat4f I(1);
+	unsigned int modelLoc = glGetUniformLocation(shader, "model");
+	glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &I[0]);
+	glBegin(GL_LINES);
+		glVertex3f(line[0].x(), line[0].y(), line[0].z());
+		glVertex3f(line[1].x(), line[1].y(), line[1].z());
+	glEnd();
+
+	glfwGetWindowSize(window, camera.getWidth(), camera.getHeight());
+	glViewport(0, 0, *camera.getWidth(), *camera.getHeight());
 
 	glUseProgram(shader);
-	unsigned int modelLoc = glGetUniformLocation(shader, "model");
 	glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &object.getModelMat()[0]);
 
 	unsigned int projectionLoc = glGetUniformLocation(shader, "projection");
@@ -22,7 +40,10 @@ void Scene::draw()
 	unsigned int viewLoc = glGetUniformLocation(shader, "view");
 	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &camera.getViewMat()[0]);
 
+	object.input(window,line[0],line[1]);
 	object.draw();
+
+	ImGui::End();
 }
 
 void Scene::createShader(const char* vertex, const char* fragment)

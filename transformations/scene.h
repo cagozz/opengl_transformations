@@ -23,6 +23,8 @@ private:
 	unsigned int shader;
 	void createShader(const char* vertex, const char* fragment);
 
+	Vec3f line[2];
+
 public:
 
 	Scene(int width, int height, GLFWwindow* window);
@@ -32,6 +34,7 @@ public:
 
 	void addObject(const char* objectFile);
 	void setShader(const char* vertexFileName, const char* fragmentFileName);
+
 };
 
 #endif // !SCENE_H

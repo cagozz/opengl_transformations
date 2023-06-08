@@ -9,7 +9,7 @@ void Camera::setPerspective(float n, float f, float r, float l, float t, float b
 	projection[14] = -1;
 }
 
-Camera::Camera(int width, int height) : position(0, 0, 5), up(0, 1, 0), projection(0), speed(0.1)
+Camera::Camera(int width, int height) : position(0, 0, 5), up(0, 1, 0), projection(0), speed(0.1), width(width), height(height)
 {
 	direction = (position - Vec3f(0, 0, 0)).normalize();
 	Vec3f right = up.cross(direction);
@@ -39,6 +39,20 @@ Camera::Camera(int width, int height) : position(0, 0, 5), up(0, 1, 0), projecti
 void Camera::update()
 {
 	view = lookAt(position, position - direction, up);
+	updatePerspective((float)width / height);
+}
+
+void Camera::updatePerspective(float aspectRatio)
+{
+	float near = 0.1;
+	float far = 100;
+
+	float angle = 45;
+	float scale = tan(angle * 0.5 * 3.141592 / 180) * near;
+	float r = aspectRatio * scale, l = -r;
+	float t = scale, bottom = -t;
+
+	setPerspective(near, far, r, l, t, bottom);
 }
 
 void Camera::input(GLFWwindow* window)

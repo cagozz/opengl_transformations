@@ -61,7 +61,7 @@ void Mesh::update()
 {
 }
 
-void Mesh::input(GLFWwindow* window)
+void Mesh::input(GLFWwindow* window, Vec3f &a, Vec3f &b)
 {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -97,11 +97,11 @@ void Mesh::input(GLFWwindow* window)
 	}
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 	{
-		rotateArbitaryAxis(Vec3f(2, 2, 0), Vec3f(-2, -2, 0), speed);
+		rotateArbitaryAxis(a, b, speed);
 	}
 	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
 	{
-		rotateArbitaryAxis(Vec3f(2, 2, 0), Vec3f(-2, -2, 0), -speed);
+		rotateArbitaryAxis(a, b, -speed);
 	}
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 	{
@@ -115,6 +115,29 @@ void Mesh::input(GLFWwindow* window)
 	{
 		scale(0.997);
 	}
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+	{
+		shear_x(0.007);
+	}
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		shear_y(0.007);
+	}
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+	{
+		shear_z(0.007);
+	}
+
+
+	
+	if (ImGui::Button("Reset"))
+	{
+		reset(true);
+		a = Vec3f(5, 5, 0);
+		b = Vec3f(-5, -5, 0);
+	}
+
+
 }
 
 

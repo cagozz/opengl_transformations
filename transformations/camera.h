@@ -12,6 +12,7 @@ private:
 	Mat4f projection, view;
 
 	float speed;
+	int width, height;
 
 	void setPerspective(float n, float f, float r, float l, float t, float b);
 
@@ -20,8 +21,11 @@ public:
 
 	Mat4f getProjectionMat() { return projection; }
 	Mat4f getViewMat() { return view; }
+	int* getHeight() { return &height; }
+	int* getWidth() { return &width; }
 
 	void update();
+	void updatePerspective(float aspectRatio);
 	void input(GLFWwindow* window);
 
 	void move(float x, float y, float z);
