@@ -29,6 +29,7 @@ private:
 	unsigned int ebo;
 
 	float speed;
+	bool arbAxis;
 
 private:
 
@@ -38,7 +39,7 @@ private:
 
 public:
 
-	Mesh() : model(1), vao(0), vbo(0), ebo(0), speed(0.01) {}
+	Mesh() : model(1), vao(0), vbo(0), ebo(0), speed(0.01), arbAxis(false) {}
 	~Mesh();
 
 	void create();
@@ -48,6 +49,7 @@ public:
 	void input(GLFWwindow* window, Vec3f &a, Vec3f &b);
 
 	void rotateArbitaryAxis(Vec3f p1, Vec3f p2, float alpha);
+	void setArbAxis(bool val) { arbAxis = val; }
 
 	Mat4f getModelMat() { return model; }
 

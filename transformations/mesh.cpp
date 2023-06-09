@@ -95,11 +95,11 @@ void Mesh::input(GLFWwindow* window, Vec3f &a, Vec3f &b)
 	{
 		rotate_y(-speed);
 	}
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && arbAxis)
 	{
 		rotateArbitaryAxis(a, b, speed);
 	}
-	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS && arbAxis)
 	{
 		rotateArbitaryAxis(a, b, -speed);
 	}
@@ -129,14 +129,12 @@ void Mesh::input(GLFWwindow* window, Vec3f &a, Vec3f &b)
 	}
 
 
-	
-	if (ImGui::Button("Reset"))
+	ImGui::Spacing();ImGui::Spacing();
+	if (ImGui::Button("Reset Object"))
 	{
 		reset(true);
-		a = Vec3f(5, 5, 0);
-		b = Vec3f(-5, -5, 0);
 	}
-
+	ImGui::Spacing(); ImGui::Spacing();
 
 }
 

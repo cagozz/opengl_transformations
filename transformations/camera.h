@@ -23,6 +23,7 @@ public:
 	Mat4f getViewMat() { return view; }
 	int* getHeight() { return &height; }
 	int* getWidth() { return &width; }
+	Vec3f& getPos() { return position; }
 
 	void update();
 	void updatePerspective(float aspectRatio);

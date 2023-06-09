@@ -150,8 +150,8 @@ int main()
         return -1;
 
     /*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);*/
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     //glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     window = glfwCreateWindow(width, height, "Viewer", NULL, NULL);
@@ -201,47 +201,21 @@ int main()
     glClearColor(0.35, 0.35, 0.35, 1);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glEnable(GL_DEPTH_TEST);
-    
-
-    float translation[] = { a, b, c };
-    //bool c = true;
 
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        /*glfwGetWindowSize(window, &width, &height);
-        aspectRatio = (float)width / height;
-        r = aspectRatio * scale, l = -r;
-        obj.setPerspective(near, far, r, l, t, bttm);*/
-
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         
-        //scene.getCamera().move(c_a, c_b, c_c);
         scene.draw();
-
-        /*ImGui::Begin("Controller");
-
-        if (ImGui::Button("Reset"))
-        {
-            obj.reset(true);
-            translation[0] = 0, translation[1] = 0, translation[2] = 0;
-        }
-
-        ImGui::SliderFloat3("Translation", translation, -5, 5);
-
-      
-        ImGui::End();*/
-
-        //glViewport(0, 0, width, height);
+        //ImGui::ShowDemoWindow();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        
-       
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

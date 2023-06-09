@@ -6,6 +6,10 @@
 #include "parser.h"
 #include <GLFW/glfw3.h>
 
+#define SPACE ImGui::Spacing();ImGui::Spacing();
+
+enum shaders {TOON, PHONG};
+
 struct Light
 {
 	Vec3f position;
@@ -23,7 +27,10 @@ private:
 	unsigned int shader;
 	void createShader(const char* vertex, const char* fragment);
 
+	//gui inputs
 	Vec3f line[2];
+	bool arbAxisActive;
+	int shaderSelector;
 
 public:
 
@@ -34,7 +41,6 @@ public:
 
 	void addObject(const char* objectFile);
 	void setShader(const char* vertexFileName, const char* fragmentFileName);
-
 };
 
 #endif // !SCENE_H

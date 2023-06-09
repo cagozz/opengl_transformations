@@ -1,24 +1,23 @@
-#version 330 core
+#version 330
 
 in vec3 FragPos;
 in vec3 Normal;
-out vec4 FragColor;
+
+uniform vec3 lightPos;
+uniform vec3 lightColor;
 
 void main()
 {
-    vec3 lightPos = vec3(2,2,2);
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(lightPos - FragPos);
 
-    vec3 lightColor = vec3(1,1,1);
-    vec3 objectColor = vec3(1.0f, 0.5f, 0.2f);
-    float ambientStrength = 0.1;
-    vec3 ambient = ambientStrength * lightColor;
+    vec4 color; 
+    float intensity = dot(lightDir,norm); 
 
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor;
+    if (intensity > 0.95) color = vec4(1.0,0.5,0.5,1.0); 
+    else if (intensity > 0.5) color = vec4(0.6,0.3,0.3,1.0); 
+    else if (intensity > 0.25) color = vec4(0.4,0.2,0.2,1.0); 
+    else color = vec4(0.2,0.1,0.1,1.0); 
 
-    vec3 result = (ambient + diffuse) * objectColor;
-
-    FragColor = vec4(result, 1.0f);
+    gl_FragColor = color;
 }

@@ -1,31 +1,30 @@
-﻿  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_glfw.cpp
-  imgui_impl_opengl3.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
-  glad.cpp
-  main.cpp
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(43,17): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(47,18): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(51,17): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(55,18): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(59,17): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(63,18): warning C4305: '=': truncation from 'double' to 'float'
+﻿  main.cpp
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\vector.h(52,14): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\mesh.h(42,6): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(47,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(51,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(55,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(59,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(63,17): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(67,18): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(71,19): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(75,19): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(79,18): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(138,36): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-  matrix.cpp
-  mesh.cpp
-  parser.cpp
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\parser.cpp(32,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\parser.cpp(32,37): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\parser.cpp(32,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(71,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(75,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(79,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(83,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(87,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(91,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(95,20): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(99,20): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(103,19): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(107,21): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(111,19): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(115,20): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(127,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(131,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\transformations\main.cpp(201,37): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
   Generating code
-  Compiler switch has changed, fall back to full compilation.
-  All 1626 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  737 of 1916 functions (38.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    203 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   transformations.vcxproj -> C:\Users\admin\Desktop\METU\COURSES\Semester-2\Term2\CNG 477\477hw2\transformations\Release\transformations.exe
