@@ -1,26 +1,37 @@
 #include "scene.h"
 
 Scene::Scene(int width, int height, GLFWwindow* window) : camera(width, height), window(window), line{ {5, 5, 0}, {-5, -5, 0} },
-														  arbAxisActive(false)
+														  arbAxisActive(false), planeActive(true), point{0,0,0}
 {
 	light.position = Vec3f(2, 2, 2);
 	light.color = Vec3f(1, 1, 1);
 	addObject("input.off");
+	glLineWidth(2);
+	glPointSize(6);
+
+	plane.vertices.push_back({ { -10,0,10 }, { 0,1,0 } });
+	plane.vertices.push_back({ { 10,0,10 }, { 0,1,0 } });
+	plane.vertices.push_back({ { 10,0,-10 }, { 0,1,0 } });
+	plane.vertices.push_back({ { -10,0,-10 }, { 0,1,0 } });
+
+	plane.indices.push_back({ 0,1,2 });
+	plane.indices.push_back({ 0,2,3 });
+
+	plane.create();
 }
 
 void Scene::draw()
 {
-	bool check;
 	ImGui::Begin("Controller", 0, ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoCollapse);
-	ImGuiWindowFlags_NoCollapse;
 	camera.input(window);
 	camera.update();
 
-	/*glLineWidth(2);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, &line[0]);
-	glDrawArrays(GL_LINES, 0, 2);
-	glDisableClientState(GL_VERTEX_ARRAY);*/
+	SPACE;
+	if (ButtonCenteredOnLine("Reset Object", 0.5f))
+	{
+		object.reset(true);
+	}
+	SPACE;
 
 	unsigned int modelLoc = glGetUniformLocation(shader, "model");
 
@@ -36,7 +47,6 @@ void Scene::draw()
 		ImGui::SliderFloat3("V1", (float*)&line[1], -5, 5);
 		Mat4f I(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &I[0]);
-		glLineWidth(5);
 		glBegin(GL_LINES);
 			glVertex3f(line[0].x(), line[0].y(), line[0].z());
 			glVertex3f(line[1].x(), line[1].y(), line[1].z());
@@ -48,7 +58,60 @@ void Scene::draw()
 			line[1] = Vec3f(-5, -5, 0);
 		}
 	}
+	SPACE;
+
+	ImGui::Checkbox("Activate Point for Scale", &pointActive);
+	SPACE;
+	if (pointActive)
+	{
+		ImGui::Text("SCALE WITH 'LEFT SHIFT' and 'LEFT CTRL'");
+		SPACE;
+		Mat4f I(1);
+		ImGui::SliderFloat3("Point", (float*)&point, -5, 5);
+		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &I[0]);
+		object.fixedPoint = point;
+		glBegin(GL_POINTS);
+		glVertex3f(point.x(), point.y(), point.z());
+		glEnd();
+		SPACE;
+		if (ImGui::Button("Reset Point"))
+		{
+			point = Vec3f(0, 0, 0);
+		}
+		SPACE;
+		
+	}
+	SPACE;
+
+	ImGui::Checkbox("Activate Arbitary Plane (HERE IS NOT READY)", &planeActive);
+	if (planeActive)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &plane.model[0]);
+		plane.draw();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		SPACE
+		if (ImGui::Button("Rotate Plane"))
+		{
+			plane.rotate_z(15);
+			plane.vertices[0].normal = plane.model.inverse().transpose() * plane.vertices[0].normal;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("REFLECT"))
+		{
+			object.reflect(plane);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("RESET"))
+		{
+			plane.model = Mat4f(1);
+			plane.vertices[0].normal = Vec3f(0, 1, 0);
+		}
+	}
 	SPACE
+
+	//light
+	{
 	ImGui::Text("Light Position");
 	SPACE
 	ImGui::SliderFloat3("XYZ", (float*)&light.position, -10, 10);
@@ -66,7 +129,9 @@ void Scene::draw()
 	{
 		light.color = Vec3f(1, 1, 1);
 	}
+	}
 
+	
 	SPACE; SPACE; SPACE; SPACE; SPACE;
 	ImGui::Text("Select Shader: ");
 	ImGui::SameLine();
@@ -74,8 +139,6 @@ void Scene::draw()
 	ImGui::SameLine();
 	ImGui::RadioButton("Phong Shader", &shaderSelector, 1);
 	SPACE;
-
-	bool ButtonCenteredOnLine(const char*, float);
 	if (ButtonCenteredOnLine("Apply", 0.5f))
 	{
 		if (shaderSelector == 0)
@@ -97,14 +160,15 @@ void Scene::draw()
 	glUniform3fv(glGetUniformLocation(shader, "lightColor"), 1, (float*) &light.color);
 	glUniform3fv(glGetUniformLocation(shader, "viewPos"), 1, (float*) &camera.getPos());
 
-	glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &object.getModelMat()[0]);
+	glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &object.model[0]);
 
 	unsigned int projectionLoc = glGetUniformLocation(shader, "projection");
-	glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, &camera.getProjectionMat()[0]);
+	glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, &camera.projection[0]);
 
 	unsigned int viewLoc = glGetUniformLocation(shader, "view");
-	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &camera.getViewMat()[0]);
+	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &camera.view[0]);
 
+	
 	object.input(window,line[0],line[1]);
 	object.draw();
 

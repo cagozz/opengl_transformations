@@ -19,8 +19,6 @@ private:
 public:
 	Camera(int width, int height);
 
-	Mat4f getProjectionMat() { return projection; }
-	Mat4f getViewMat() { return view; }
 	int* getHeight() { return &height; }
 	int* getWidth() { return &width; }
 	Vec3f& getPos() { return position; }
@@ -33,6 +31,8 @@ public:
 	void rotate(float x, float y, float z);
 
 	Mat4f lookAt(Vec3f position, Vec3f target, Vec3f up);
+
+	friend class Scene;
 };
 
 #endif // !CAMERA_H

@@ -9,6 +9,7 @@
 #define SPACE ImGui::Spacing();ImGui::Spacing();
 
 enum shaders {TOON, PHONG};
+bool ButtonCenteredOnLine(const char*, float);
 
 struct Light
 {
@@ -29,7 +30,11 @@ private:
 
 	//gui inputs
 	Vec3f line[2];
+	Vec3f point;
+	Mesh plane;
 	bool arbAxisActive;
+	bool planeActive;
+	bool pointActive;
 	int shaderSelector;
 
 public:

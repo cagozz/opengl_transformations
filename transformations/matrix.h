@@ -71,6 +71,158 @@ public:
 		return result;
 	}
 
+	Mat4f inverse()
+	{
+        Mat4f result;
+        result[0] = data[5] * data[10] * data[15] -
+                    data[5] * data[11] * data[14] -
+                    data[9] * data[6] * data[15] +
+                    data[9] * data[7] * data[14] +
+                    data[13] * data[6] * data[11] -
+                    data[13] * data[7] * data[10];
+
+        result[4] = -data[4] * data[10] * data[15] +
+                    data[4] * data[11] * data[14] +
+                    data[8] * data[6] * data[15] -
+                    data[8] * data[7] * data[14] -
+                    data[12] * data[6] * data[11] +
+                    data[12] * data[7] * data[10];
+
+        result[8] = data[4] * data[9] * data[15] -
+                    data[4] * data[11] * data[13] -
+                    data[8] * data[5] * data[15] +
+                    data[8] * data[7] * data[13] +
+                    data[12] * data[5] * data[11] -
+                    data[12] * data[7] * data[9];
+
+        result[12] = -data[4] * data[9] * data[14] +
+                      data[4] * data[10] * data[13] +
+                      data[8] * data[5] * data[14] -
+                      data[8] * data[6] * data[13] -
+                      data[12] * data[5] * data[10] +
+                      data[12] * data[6] * data[9];
+
+        result[1] = -data[1] * data[10] * data[15] +
+                    data[1] * data[11] * data[14] +
+                    data[9] * data[2] * data[15] -
+                    data[9] * data[3] * data[14] -
+                    data[13] * data[2] * data[11] +
+                    data[13] * data[3] * data[10];
+
+        result[5] = data[0] * data[10] * data[15] -
+                    data[0] * data[11] * data[14] -
+                    data[8] * data[2] * data[15] +
+                    data[8] * data[3] * data[14] +
+                    data[12] * data[2] * data[11] -
+                    data[12] * data[3] * data[10];
+
+        result[9] = -data[0] * data[9] * data[15] +
+                    data[0] * data[11] * data[13] +
+                    data[8] * data[1] * data[15] -
+                    data[8] * data[3] * data[13] -
+                    data[12] * data[1] * data[11] +
+                    data[12] * data[3] * data[9];
+
+        result[13] = data[0] * data[9] * data[14] -
+                    data[0] * data[10] * data[13] -
+                    data[8] * data[1] * data[14] +
+                    data[8] * data[2] * data[13] +
+                    data[12] * data[1] * data[10] -
+                    data[12] * data[2] * data[9];
+
+        result[2] = data[1] * data[6] * data[15] -
+                    data[1] * data[7] * data[14] -
+                    data[5] * data[2] * data[15] +
+                    data[5] * data[3] * data[14] +
+                    data[13] * data[2] * data[7] -
+                    data[13] * data[3] * data[6];
+
+        result[6] = -data[0] * data[6] * data[15] +
+                    data[0] * data[7] * data[14] +
+                    data[4] * data[2] * data[15] -
+                    data[4] * data[3] * data[14] -
+                    data[12] * data[2] * data[7] +
+                    data[12] * data[3] * data[6];
+
+        result[10] = data[0] * data[5] * data[15] -
+                    data[0] * data[7] * data[13] -
+                    data[4] * data[1] * data[15] +
+                    data[4] * data[3] * data[13] +
+                    data[12] * data[1] * data[7] -
+                    data[12] * data[3] * data[5];
+
+        result[14] = -data[0] * data[5] * data[14] +
+                    data[0] * data[6] * data[13] +
+                    data[4] * data[1] * data[14] -
+                    data[4] * data[2] * data[13] -
+                    data[12] * data[1] * data[6] +
+                    data[12] * data[2] * data[5];
+
+        result[3] = -data[1] * data[6] * data[11] +
+                    data[1] * data[7] * data[10] +
+                    data[5] * data[2] * data[11] -
+                    data[5] * data[3] * data[10] -
+                    data[9] * data[2] * data[7] +
+                    data[9] * data[3] * data[6];
+
+        result[7] = data[0] * data[6] * data[11] -
+                    data[0] * data[7] * data[10] -
+                    data[4] * data[2] * data[11] +
+                    data[4] * data[3] * data[10] +
+                    data[8] * data[2] * data[7] -
+                    data[8] * data[3] * data[6];
+
+        result[11] = -data[0] * data[5] * data[11] +
+                     data[0] * data[7] * data[9] +
+                     data[4] * data[1] * data[11] -
+                     data[4] * data[3] * data[9] -
+                     data[8] * data[1] * data[7] +
+                     data[8] * data[3] * data[5];
+
+        result[15] = data[0] * data[5] * data[10] -
+                     data[0] * data[6] * data[9] -
+                     data[4] * data[1] * data[10] +
+                     data[4] * data[2] * data[9] +
+                     data[8] * data[1] * data[6] -
+                     data[8] * data[2] * data[5];
+
+        float det = data[0] * result[0] + data[1] * result[4] + data[2] * result[8] + data[3] * result[12];
+        if (det == 0)
+            return Mat4f(1);
+
+        det = 1.0 / det;
+
+        for (int i = 0; i < 16; i++)
+            result[i] = result[i] * det;
+
+        return result;
+	}
+
+    Mat4f transpose()
+    {
+        Mat4f result;
+
+        for (int i = 0; i < 4; ++i)
+        {
+            for (int j = 0; j < 4; ++j)
+            {
+                result[i * 4 + j] = data[j * 4 + i];
+            }
+        }  
+
+        return result;
+    }
+
+    Vec3f operator*(Vec3f vec)
+    {
+        Vec3f result;
+
+        result.x() = data[0] * vec.x() + data[1] * vec.y() + data[2] * vec.z();
+        result.y() = data[4] * vec.x() + data[5] * vec.y() + data[6] * vec.z();
+        result.z() = data[8] * vec.x() + data[9] * vec.y() + data[10] * vec.z();
+
+        return result;
+    }
 
 	friend std::ostream& operator<<(std::ostream& os, const Mat4f& v);
 };
@@ -84,5 +236,29 @@ inline std::ostream& operator<<(std::ostream& os, const Mat4f& m)
 	os << m.data[12] << "\t" << m.data[13] << "\t" << m.data[14] << "\t" << m.data[15] << std::endl;
 	return os;
 }
+
+class Mat3f
+{
+private:
+	float data[9];
+public:
+
+	Mat3f(float a00, float a01, float a02,
+		  float a10, float a11, float a12,
+		  float a20, float a21, float a22)
+		:
+		data{ a00, a01, a02, 
+			  a10, a11, a12, 
+			  a20, a21, a22 } {}
+
+	Mat3f(float diag) :
+		data{  diag, 0,  0, 
+			   0,  diag, 0,
+			   0,    0, diag} {}
+	Mat3f() : 
+		data { 0, 0, 0,
+			   0, 0, 0,
+			   0, 0, 0} {}
+};
 
 #endif // !MATRIX_H

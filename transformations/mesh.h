@@ -30,6 +30,7 @@ private:
 
 	float speed;
 	bool arbAxis;
+	Vec3f fixedPoint;
 
 private:
 
@@ -99,7 +100,19 @@ public:
 	void scale(float m)
 	{
 		Mat4f scalar(m);
+		Mat4f translate(1);
+		Mat4f undo(1);
+
+		translate[3] = -fixedPoint.x();
+		translate[7] = -fixedPoint.y();
+		translate[11] = -fixedPoint.z();
+		undo[3] =  fixedPoint.x();
+		undo[7] =  fixedPoint.y();
+		undo[11] = fixedPoint.z();
+
 		scalar[15] = 1;
+
+		scalar = undo * scalar * translate;
 
 		model = scalar * model;
 	}
@@ -111,6 +124,7 @@ public:
 
 		model = shear * model;
 	}
+
 	void shear_y(float m)
 	{
 		Mat4f shear(1);
@@ -136,8 +150,11 @@ public:
 					  0, 0, 0, 1);
 		}
 	}
+
+	void reflect(Mesh&);
 	
 	friend void parser(const char* fileName, Mesh& obj);
+	friend class Scene;
 };
 
 

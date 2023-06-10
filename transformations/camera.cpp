@@ -9,7 +9,7 @@ void Camera::setPerspective(float n, float f, float r, float l, float t, float b
 	projection[14] = -1;
 }
 
-Camera::Camera(int width, int height) : position(0, 0, 5), up(0, 1, 0), projection(0), speed(0.1), width(width), height(height)
+Camera::Camera(int width, int height) : position(0, 1.5, 10), up(0, 1, 0), projection(0), speed(0.06), width(width), height(height)
 {
 	direction = (position - Vec3f(0, 0, 0)).normalize();
 	Vec3f right = up.cross(direction);
@@ -72,6 +72,14 @@ void Camera::input(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
 		position = position + up.cross(direction).normalize() * speed;
+	}
+	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+	{
+		position = position +  up * speed;
+	}
+	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+	{
+		position = position - up * speed;
 	}
 }
 

@@ -103,36 +103,3 @@ Shader shaderParser(const char* vertexFileName, const char* fragmentFileName)
 
 	return out;
 }
-
-
-
-/*
-   glfwGetFramebufferSize(window, &width, &height);
-
-		const float aspectRatio = (float)width / height;
-		float sx = aspectRatio > 1.0f ? aspectRatio : 1.0f;
-		float sy = aspectRatio > 1.0f ? 1.0f : 1.0f / aspectRatio;
-
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		//gluOrtho2D(-sx, sx, -sy, sy);
-		glOrtho(-sx, sx, -sy, sy, -1, 1);
-		glViewport(0, 0, width, height);
-
-*/
-
-/*unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, obj.vertices.size() * sizeof(Vec3f), &obj.vertices[0], GL_STATIC_DRAW);
-
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, obj.indices.size() * sizeof(Vec3), &obj.indices[0], GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, sizeof(Vec3f), (void*)0);*/
