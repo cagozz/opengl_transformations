@@ -37,12 +37,15 @@ private:
 	bool pointActive;
 	int shaderSelector;
 
+	Vec3f pos;
+
 public:
 
 	Scene(int width, int height, GLFWwindow* window);
 
 	void draw();
 	Camera& getCamera() { return camera; }
+	void gui(unsigned int);
 
 	void addObject(const char* objectFile);
 	void setShader(const char* vertexFileName, const char* fragmentFileName);

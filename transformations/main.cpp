@@ -35,7 +35,7 @@ int main()
     std::cout << glGetString(GL_VERSION);
 
     Scene scene(width, height, window);
-    scene.setShader("demo.vert", "demo.frag");
+    scene.setShader("toon.vert", "toon.frag");
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();

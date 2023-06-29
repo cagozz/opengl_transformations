@@ -141,7 +141,6 @@
     <ClCompile Include="..\lib\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\lib\imgui\imgui_widgets.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="glad.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="mesh.cpp" />
@@ -169,12 +168,6 @@
   <ItemGroup>
     <None Include="demo.frag" />
     <None Include="demo.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="transformations.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

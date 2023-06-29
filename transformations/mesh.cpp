@@ -155,6 +155,7 @@ void Mesh::rotateArbitaryAxis(Vec3f p1, Vec3f p2, float alpha)
 
 	float d = sqrt(pow(u.y(), 2) + pow(u.z(), 2));
 	float a = u.x(), b = u.y(), c = u.z();
+
 	if (d != 0)
 	{
 		Mat4f translate(1);
@@ -189,8 +190,6 @@ void Mesh::rotateArbitaryAxis(Vec3f p1, Vec3f p2, float alpha)
 	}
 	else
 	{
-		if (p1.y() == p2.y())
-		{
 			Mat4f translate(1);
 			translate[3] = 0; translate[7] = -p1.y(); translate[11] = -p1.z();
 
@@ -203,15 +202,13 @@ void Mesh::rotateArbitaryAxis(Vec3f p1, Vec3f p2, float alpha)
 
 			Mat4f result = undo_translate * rotate_around_x * translate;
 			model = result * model;
-		}
-		
 	}
 	
 }
 
 void Mesh::reflect(Mesh& plane)
 {
-	Vec3f point = plane.vertices[0].position;
+	Vec3f point = pos;
 	Vec3f normal = plane.vertices[0].normal.normalize();
 
 	float d = sqrt(pow(normal.y(), 2) + pow(normal.z(), 2));

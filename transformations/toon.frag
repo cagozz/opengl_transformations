@@ -1,6 +1,6 @@
 #version 330
 
-in vec3 FragPos;
+in vec3 hitPoint;
 in vec3 Normal;
 
 uniform vec3 lightPos;
@@ -9,7 +9,7 @@ uniform vec3 lightColor;
 void main()
 {
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
+    vec3 lightDir = normalize(lightPos - hitPoint);
 
     vec4 color; 
     float intensity = dot(lightDir,norm); 
